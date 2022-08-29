@@ -21,7 +21,7 @@
     "double/sickle_left": {
       "parent": "bettercombat:sickle"
     },
-    "double/tomahawk": {
+    "double/tomahawk_left": {
       "parent": "bettercombat:axe"
     },
     "double/void_worm_pickaxe": {
