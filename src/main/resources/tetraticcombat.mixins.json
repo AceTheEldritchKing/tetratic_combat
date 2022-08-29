@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "smartin.tetraticcombat.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "WeaponRegistryInterface",
+    "WeaponRegistryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "tetraticcombat.refmap.json"
+}
