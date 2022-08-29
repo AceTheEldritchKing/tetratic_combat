@@ -70,6 +70,12 @@
     "single/spearhead": {
       "parent": "bettercombat:spear"
     },
+    "single/cane_head": {
+      "parent": "bettercombat:staff"
+    },
+    "single/quarter_staff_head": {
+      "parent": "bettercombat:battlestaff"
+    },
     "single/basic_shovel": {
       "parent": "bettercombat:staff"
     },
