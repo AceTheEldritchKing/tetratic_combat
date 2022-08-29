@@ -62,6 +62,9 @@
     "sword/machete": {
       "parent": "bettercombat:cutlass"
     },
+    "sword/saber_blade": {
+      "parent": "bettercombat:cutlass"
+    },
     "sword/short_blade": {
       "parent": "bettercombat:dagger"
     }
@@ -82,7 +85,7 @@
     "single/basic_shovel": {
       "parent": "bettercombat:staff"
     },
-    "single/halberd": {
+    "single/halberd_head": {
       "parent": "bettercombat:halberd"
     },
     "single/mace_head": {
