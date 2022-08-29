@@ -67,6 +67,9 @@
     }
   },
   "single/head": {
+    "single/trident": {
+      "parent": "bettercombat:trident"
+    },
     "single/spearhead": {
       "parent": "bettercombat:spear"
     },
