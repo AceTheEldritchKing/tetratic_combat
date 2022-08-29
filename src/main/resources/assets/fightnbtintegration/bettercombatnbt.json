@@ -54,7 +54,7 @@
       "parent": "bettercombat:sword"
     },
     "sword/void_worm_cleaver": {
-      "parent": "bettercombat:sword"
+      "parent": "bettercombat:claymore"
     },
     "sword/heavy_blade": {
       "parent": "bettercombat:claymore"
