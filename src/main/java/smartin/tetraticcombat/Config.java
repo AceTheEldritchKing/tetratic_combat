@@ -128,7 +128,7 @@ public class Config {
                 }
                 if(attributes!=null && range!=attributes.attackRange()){
                     System.out.println("new WeaponAttributes"+range);
-                    attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),false,attributes.category(),attributes.attacks());
+                    attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
                 }
 
                 container =  new AttributesContainer(container.parent(),attributes);
