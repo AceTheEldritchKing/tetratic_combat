@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(value = WeaponRegistry.class, remap = false)
@@ -25,8 +24,4 @@ public interface WeaponRegistryInterface {
         throw new AssertionError();
     }
 
-    @Invoker("resolveAndRegisterAttributes")
-    static void resolveAndRegisterAttributes(ResourceLocation itemId, AttributesContainer container) {
-        throw new AssertionError();
-    }
 }
