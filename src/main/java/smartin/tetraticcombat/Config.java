@@ -104,8 +104,9 @@ public class Config {
             try{
                 double range = getAttackRange(itemStack);
                 WeaponAttributes attributes = WeaponRegistry.resolveAttributes(new ResourceLocation("tetratic:generated"),container.attributes);
-
-                attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
+                if(ForgeConfigHolder.COMMON.EnableTetraRange.get()){
+                    attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
+                }
                 WeaponAttributesHelper.validate(attributes);
                 AttributesContainer attributesContainer =  new AttributesContainer(container.attributes.parent(),attributes);
                 WeaponAttributesHelper.writeToNBT(itemStack,attributesContainer);

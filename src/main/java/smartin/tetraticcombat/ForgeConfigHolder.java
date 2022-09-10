@@ -9,13 +9,15 @@ public class ForgeConfigHolder {
         private static final boolean defaultBool1 = true;
 
         public final ForgeConfigSpec.ConfigValue<Boolean> EnableRescale;
-
+        public final ForgeConfigSpec.ConfigValue<Boolean> EnableTetraRange;
 
         public Common(ForgeConfigSpec.Builder builder)
         {
             builder.push("rendering");
             this.EnableRescale = builder.comment("Enable Tetratic Rescaling for Items in the players Hand.")
                     .define("enableRescale", defaultBool1);
+            this.EnableTetraRange = builder.comment("Use Tetras AttackRange.")
+                    .define("tetraRange", defaultBool1);
             builder.pop();
         }
     }
