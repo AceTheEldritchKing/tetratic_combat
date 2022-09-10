@@ -113,10 +113,16 @@ public class Config {
                 CompoundTag nbt = itemStack.getTag();
                 if(container.scaleX!=1.0f)
                     nbt.putFloat("tetraticScaleX",container.scaleX);
+                else if(nbt.contains("tetraticScaleX"))
+                    nbt.remove("tetraticScaleX");
                 if(container.scaleY!=1.0f)
                     nbt.putFloat("tetraticScaleY",container.scaleY);
+                else if(nbt.contains("tetraticScaleY"))
+                    nbt.remove("tetraticScaleY");
                 if(container.scaleZ!=1.0f)
                     nbt.putFloat("tetraticScaleZ",container.scaleZ);
+                else if(nbt.contains("tetraticScaleZ"))
+                    nbt.remove("tetraticScaleZ");
                 itemStack.setTag(nbt);
                 return itemStack;
             }
