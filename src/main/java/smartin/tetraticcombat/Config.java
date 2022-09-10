@@ -41,7 +41,6 @@ public class Config {
         jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), fileName);
         try {
             if (jsonFile.createNewFile()) {
-                System.out.println("No Config found");
                 Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve(fileName);
                 InputStreamReader defaults = new InputStreamReader(Files.exists(defaultConfigPath)? Files.newInputStream(defaultConfigPath) :
                         Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream("assets/fightnbtintegration/"+fileName)));
@@ -56,7 +55,6 @@ public class Config {
         } catch (IOException error) {
             LOGGER.warn(error.getMessage());
         }
-
         readConfig(jsonFile);
     }
 
@@ -110,20 +108,7 @@ public class Config {
                 WeaponAttributesHelper.validate(attributes);
                 AttributesContainer attributesContainer =  new AttributesContainer(container.attributes.parent(),attributes);
                 WeaponAttributesHelper.writeToNBT(itemStack,attributesContainer);
-                CompoundTag nbt = itemStack.getTag();
-                if(container.scaleX!=1.0f)
-                    nbt.putFloat("tetraticScaleX",container.scaleX);
-                else if(nbt.contains("tetraticScaleX"))
-                    nbt.remove("tetraticScaleX");
-                if(container.scaleY!=1.0f)
-                    nbt.putFloat("tetraticScaleY",container.scaleY);
-                else if(nbt.contains("tetraticScaleY"))
-                    nbt.remove("tetraticScaleY");
-                if(container.scaleZ!=1.0f)
-                    nbt.putFloat("tetraticScaleZ",container.scaleZ);
-                else if(nbt.contains("tetraticScaleZ"))
-                    nbt.remove("tetraticScaleZ");
-                itemStack.setTag(nbt);
+                applyScale(itemStack,container.scaleX,container.scaleY,container.scaleZ);
                 return itemStack;
             }
             catch (Exception e){
@@ -134,24 +119,41 @@ public class Config {
         return itemStack;
     }
 
+    private static void applyScale(ItemStack stack,float x,float y,float z){
+        CompoundTag nbt = stack.getTag();
+        if(x!=1.0f)
+            nbt.putFloat("tetraticScaleX",x);
+        else if(nbt.contains("tetraticScaleX"))
+            nbt.remove("tetraticScaleX");
+        if(y!=1.0f)
+            nbt.putFloat("tetraticScaleY",y);
+        else if(nbt.contains("tetraticScaleY"))
+            nbt.remove("tetraticScaleY");
+        if(z!=1.0f)
+            nbt.putFloat("tetraticScaleZ",z);
+        else if(nbt.contains("tetraticScaleZ"))
+            nbt.remove("tetraticScaleZ");
+        stack.setTag(nbt);
+    }
+
     private static double getAttackRange(ItemStack itemStack){
-        double range = 3.0d;
         if(itemStack.getItem() instanceof ModularItem item){
             //TetraItem, use fallback to Reach
             if(item.getAttributeModifiers(itemStack.getEquipmentSlot(),itemStack).containsKey(ForgeMod.ATTACK_RANGE)){
-                System.out.println("RANGE");
-                range = 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
+                return 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
             }
             else{
-                System.out.println("REACH");
-                range = 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
+                return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
             }
         }
         else{
             //not a tetra Item, technically this code is not needed
-            Multimap<Attribute, AttributeModifier> attributeMap = itemStack.getAttributeModifiers(itemStack.getEquipmentSlot());
-            range = AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),3.0d);
+            try{
+                Multimap<Attribute, AttributeModifier> attributeMap = itemStack.getAttributeModifiers(itemStack.getEquipmentSlot());
+                return AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),3.0d);
+            }catch (Exception e){
+                return 3.0d;
+            }
         }
-        return range;
     }
 }
