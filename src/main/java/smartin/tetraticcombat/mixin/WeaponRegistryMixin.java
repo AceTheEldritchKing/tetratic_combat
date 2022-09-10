@@ -27,6 +27,7 @@ public abstract class WeaponRegistryMixin {
          * It checks if an Item does not have the Tag set and if its supposed to have a Tag
          * If both are true it generates a new Tag
          * There is no harm if this mixins fails, nor will the game crash
+         * This should be moved to a Forge event in the future and only react on a change of Item in Hand
          */
         if(itemStack!=null && itemStack.hasTag() && !itemStack.getTag().contains("weapon_attributes")){
             Config.generateBetterCombatNBT(itemStack);

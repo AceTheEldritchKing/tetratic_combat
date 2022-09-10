@@ -1,0 +1,20 @@
+{
+    "attributes": {
+        "attack_range": 3,
+        "pose": "bettercombat:pose_two_handed_katana",
+        "two_handed": false,
+        "category": "murasama",
+        "attacks": [
+            {
+                "hitbox": "VERTICAL_PLANE",
+                "damage_multiplier": 0.9,
+                "angle": 120,
+                "upswing": 0.5,
+                "animation": "bettercombat:murasama_animation_test",
+                "swing_sound": {
+                    "id": "bettercombat:claymore_swing"
+                }
+            }
+        ]
+    }
+}

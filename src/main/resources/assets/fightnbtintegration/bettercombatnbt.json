@@ -22,11 +22,11 @@
     },
     "double/basic_pickaxe_left": {
       "type":"improvement",
-      "key": "double/head_left",
-      "improvement": "double/warforged",
+      "key": "sword/murasama_imprv",
+      "improvement": "sword/murasama_imprv",
       "config": {
         "attributes": {
-          "parent": "bettercombat:pickaxe"
+          "parent": "bettercombat:murasama"
         }
       }
     },
@@ -204,59 +204,70 @@
       }
     },
     "sword/katana_blade": {
+      "conditions": [
+        {
+          "type": "improvement",
+          "improvement": "sword/murasama_imprv",
+          "config": {
+            "attributes": {
+              "parent": "bettercombat:murasama"
+            }
+          }
+        }
+      ],
       "config": {
         "attributes": {
-          "parent": "bettercombat:katana"
+          "parent": "bettercombat:staff"
         }
       }
-    },
-    "sword/rapier_blade": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:rapier"
-        }
+    }
+  },
+  "sword/rapier_blade": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:rapier"
       }
-    },
-    "sword/shifting_blade": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:sword"
-        }
+    }
+  },
+  "sword/shifting_blade": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:sword"
       }
-    },
-    "sword/void_worm_cleaver": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:claymore"
-        }
+    }
+  },
+  "sword/void_worm_cleaver": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:claymore"
       }
-    },
-    "sword/heavy_blade": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:claymore"
-        }
+    }
+  },
+  "sword/heavy_blade": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:claymore"
       }
-    },
-    "sword/machete": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:cutlass"
-        }
+    }
+  },
+  "sword/machete": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:cutlass"
       }
-    },
-    "sword/saber_blade": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:cutlass"
-        }
+    }
+  },
+  "sword/saber_blade": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:cutlass"
       }
-    },
-    "sword/short_blade": {
-      "config": {
-        "attributes": {
-          "parent": "bettercombat:dagger"
-        }
+    }
+  },
+  "sword/short_blade": {
+    "config": {
+      "attributes": {
+        "parent": "bettercombat:dagger"
       }
     }
   }
