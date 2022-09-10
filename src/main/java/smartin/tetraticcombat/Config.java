@@ -3,7 +3,6 @@ package smartin.tetraticcombat;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-//import smartin.tetraticcombat.network.SSyncConfig;
 import net.bettercombat.api.AttributesContainer;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.api.WeaponAttributesHelper;
@@ -12,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.loading.FMLConfig;
@@ -25,7 +23,6 @@ import se.mickelus.tetra.properties.AttributeHelper;
 import smartin.tetraticcombat.network.SSyncConfig;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -35,22 +32,19 @@ import java.util.Objects;
 
 public class Config {
     private static final Logger LOGGER = LogManager.getLogger();
-
-    private static final Type attributesContainerFileFormat = (new TypeToken<AttributesContainer>() {
-    }).getType();
-
-
     public static File jsonFile;
-    public static Map<String, Map<String, AttributesContainer>> JSON_MAP = new HashMap<>();
+    public static String fileName = "bettercombatnbt.json";
+    public static Map<String, Map<String, Condition>> JSON_MAP = new HashMap<>();
 
 
     public static void init(Path folder) {
-        jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), "bettercombatnbt.json");
+        jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), fileName);
         try {
             if (jsonFile.createNewFile()) {
-                Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve("bettercombatnbt.json");
+                System.out.println("No Config found");
+                Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve(fileName);
                 InputStreamReader defaults = new InputStreamReader(Files.exists(defaultConfigPath)? Files.newInputStream(defaultConfigPath) :
-                        Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream("assets/fightnbtintegration/bettercombatnbt.json")));
+                        Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream("assets/fightnbtintegration/"+fileName)));
                 FileOutputStream writer = new FileOutputStream(jsonFile, false);
                 int read;
                 while ((read = defaults.read()) != -1) {
@@ -76,30 +70,27 @@ public class Config {
     }
 
     public static void readConfig(String config) {
-        JSON_MAP = new Gson().fromJson(config, new TypeToken<Map<String, Map<String, AttributesContainer>>>(){}.getType());
+        JSON_MAP = new Gson().fromJson(config, new TypeToken<Map<String, Map<String, Condition>>>(){}.getType());
     }
 
     public static void readConfig(File path) {
         try (Reader reader = new FileReader(path)) {
-            JSON_MAP = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, AttributesContainer>>>(){}.getType());
+            JSON_MAP = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, Condition>>>(){}.getType());
         } catch (IOException e) {
             e.printStackTrace();
             JSON_MAP = new HashMap<>();
         }
     }
 
-    public static AttributesContainer findWeaponByNBT(ItemStack stack) {
-        if(JSON_MAP==null){
-            System.out.println("NULL");
-            return null;
-        }
+    public static ExpandedContainer findWeaponByNBT(ItemStack stack) {
         if(stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
                 if(JSON_MAP.containsKey(key)){
-                    Map<String, AttributesContainer> map1 =  JSON_MAP.get(key);
+                    Map<String, Condition> map1 =  JSON_MAP.get(key);
                     if(map1.containsKey(tag.getString(key))){
-                        return map1.get(tag.getString(key));
+                        System.out.println(map1.get(tag.getString(key)));
+                        return map1.get(tag.getString(key)).resolve(stack);
                     }
                 }
             }
@@ -108,32 +99,24 @@ public class Config {
     }
 
     public static ItemStack generateBetterCombatNBT(ItemStack itemStack){
-        AttributesContainer container = Config.findWeaponByNBT(itemStack);
+        ExpandedContainer container = Config.findWeaponByNBT(itemStack);
         if(container!=null){
             try{
-                double range;
-                WeaponAttributes attributes = WeaponRegistry.resolveAttributes(new ResourceLocation("tetratic:generated"),container);
-                if(itemStack.getItem() instanceof ModularItem){
-                    ModularItem item = (ModularItem) itemStack.getItem();
-                    if(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get())==0){
-                        range = 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
-                    }
-                    else{
-                        range = 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
-                    }
-                }
-                else{
-                    Multimap<Attribute, AttributeModifier> attributeMap = itemStack.getAttributeModifiers(itemStack.getEquipmentSlot());
-                    range = AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),3.0d);
-                }
-                if(attributes!=null && range!=attributes.attackRange()){
-                    System.out.println("new WeaponAttributes"+range);
-                    attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
-                }
+                double range = getAttackRange(itemStack);
+                WeaponAttributes attributes = WeaponRegistry.resolveAttributes(new ResourceLocation("tetratic:generated"),container.attributes);
 
-                container =  new AttributesContainer(container.parent(),attributes);
+                attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
                 WeaponAttributesHelper.validate(attributes);
-                WeaponAttributesHelper.writeToNBT(itemStack,container);
+                AttributesContainer attributesContainer =  new AttributesContainer(container.attributes.parent(),attributes);
+                WeaponAttributesHelper.writeToNBT(itemStack,attributesContainer);
+                CompoundTag nbt = itemStack.getTag();
+                if(container.scaleX!=1.0f)
+                    nbt.putFloat("tetraticScaleX",container.scaleX);
+                if(container.scaleY!=1.0f)
+                    nbt.putFloat("tetraticScaleY",container.scaleY);
+                if(container.scaleZ!=1.0f)
+                    nbt.putFloat("tetraticScaleZ",container.scaleZ);
+                itemStack.setTag(nbt);
                 return itemStack;
             }
             catch (Exception e){
@@ -142,5 +125,26 @@ public class Config {
             }
         }
         return itemStack;
+    }
+
+    private static double getAttackRange(ItemStack itemStack){
+        double range = 3.0d;
+        if(itemStack.getItem() instanceof ModularItem item){
+            //TetraItem, use fallback to Reach
+            if(item.getAttributeModifiers(itemStack.getEquipmentSlot(),itemStack).containsKey(ForgeMod.ATTACK_RANGE)){
+                System.out.println("RANGE");
+                range = 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
+            }
+            else{
+                System.out.println("REACH");
+                range = 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
+            }
+        }
+        else{
+            //not a tetra Item, technically this code is not needed
+            Multimap<Attribute, AttributeModifier> attributeMap = itemStack.getAttributeModifiers(itemStack.getEquipmentSlot());
+            range = AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),3.0d);
+        }
+        return range;
     }
 }

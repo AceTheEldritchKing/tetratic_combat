@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 group = 'smartin'
-version = '1.0-SNAPSHOT'
+version = '2.0'
 
 java {
     archivesBaseName = 'tetratic-combat'
@@ -93,6 +93,10 @@ dependencies {
     implementation fg.deobf("curse.maven:tetra-289712:3813582")
     implementation fg.deobf("curse.maven:AoF-596955:3950761")
 
+
+    implementation fg.deobf("curse.maven:mantle-74924:3829975")
+    implementation fg.deobf("curse.maven:tc-74072:3829979")
+
     runtimeOnly(fg.deobf("curse.maven:nbttool-451553:3748971"))
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
@@ -103,7 +107,7 @@ jar {
         attributes([
                 "Specification-Title"     : "tetraticcombat",
                 "Specification-Vendor"    : "Smartin, Ace",
-                "Specification-Version"   : "1.1", // We are version 1 of ourselves
+                "Specification-Version"   : "1.0", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "Smartin, Ace",

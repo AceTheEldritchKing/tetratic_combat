@@ -18,7 +18,7 @@ public abstract class WeaponRegistryMixin {
             method = "Lnet/bettercombat/logic/WeaponRegistry;getAttributes(Lnet/minecraft/world/item/ItemStack;)Lnet/bettercombat/api/WeaponAttributes;",
             cancellable = true,
             remap = false,
-            require = 1
+            require = -1
     )
     private static void getAttributes(ItemStack itemStack, CallbackInfoReturnable<WeaponAttributes> cir){
         /**
