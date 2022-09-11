@@ -138,10 +138,7 @@ public class Config {
     }
 
     private static double getQuickStat(ItemStack stack){
-        if(stack.getItem() instanceof ModularItem item){
-            //item.quickStrike
-            //item.getEffectDataCache()
-
+        if(stack.getItem() instanceof ModularItem item && ){
             var map = item.getEffectData(stack).levelMap;
             if(map.containsKey(ItemEffect.quickStrike)){
                 float level = map.get(ItemEffect.quickStrike);
@@ -152,12 +149,10 @@ public class Config {
     }
 
     private static void RescaleUpswing(WeaponAttributes weaponAttributes, double scale){
+        if(!ForgeConfigHolder.COMMON.QuickReducesUpswing.get()) return;
         WeaponAttributes.Attack[] attacks = weaponAttributes.attacks();
         for(int i = 0;i<attacks.length;i++) {
-            System.out.println("Old Upswing"+attacks[i].upswing());
-            System.out.println("Scale"+scale);
             double newUpswing = Math.max(0,attacks[i].upswing()-attacks[i].upswing()*scale);
-            System.out.println("new Upswing"+newUpswing);
             attacks[i] = new WeaponAttributes.Attack(
                     attacks[i].conditions(),
                     attacks[i].hitbox(),
@@ -168,7 +163,6 @@ public class Config {
                     attacks[i].swingSound(),
                     attacks[i].impactSound()
             );
-            //attacks.
         }
     }
 
