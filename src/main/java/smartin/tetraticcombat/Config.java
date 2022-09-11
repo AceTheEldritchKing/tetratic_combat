@@ -18,6 +18,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import se.mickelus.tetra.effect.ItemEffect;
 import se.mickelus.tetra.items.modular.ModularItem;
 import se.mickelus.tetra.properties.AttributeHelper;
 import smartin.tetraticcombat.network.SSyncConfig;
@@ -87,7 +88,6 @@ public class Config {
                 if(JSON_MAP.containsKey(key)){
                     Map<String, Condition> map1 =  JSON_MAP.get(key);
                     if(map1.containsKey(tag.getString(key))){
-                        System.out.println(map1.get(tag.getString(key)));
                         return map1.get(tag.getString(key)).resolve(stack);
                     }
                 }
@@ -105,6 +105,7 @@ public class Config {
                 if(ForgeConfigHolder.COMMON.EnableTetraRange.get()){
                     attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
                 }
+                RescaleUpswing(attributes,getQuickStat(itemStack));
                 WeaponAttributesHelper.validate(attributes);
                 AttributesContainer attributesContainer =  new AttributesContainer(container.attributes.parent(),attributes);
                 WeaponAttributesHelper.writeToNBT(itemStack,attributesContainer);
@@ -134,6 +135,41 @@ public class Config {
         else if(nbt.contains("tetraticScaleZ"))
             nbt.remove("tetraticScaleZ");
         stack.setTag(nbt);
+    }
+
+    private static double getQuickStat(ItemStack stack){
+        if(stack.getItem() instanceof ModularItem item){
+            //item.quickStrike
+            //item.getEffectDataCache()
+
+            var map = item.getEffectData(stack).levelMap;
+            if(map.containsKey(ItemEffect.quickStrike)){
+                float level = map.get(ItemEffect.quickStrike);
+                return level*0.05d+0.2d;
+            }
+        }
+        return 0.0d;
+    }
+
+    private static void RescaleUpswing(WeaponAttributes weaponAttributes, double scale){
+        WeaponAttributes.Attack[] attacks = weaponAttributes.attacks();
+        for(int i = 0;i<attacks.length;i++) {
+            System.out.println("Old Upswing"+attacks[i].upswing());
+            System.out.println("Scale"+scale);
+            double newUpswing = Math.max(0,attacks[i].upswing()-attacks[i].upswing()*scale);
+            System.out.println("new Upswing"+newUpswing);
+            attacks[i] = new WeaponAttributes.Attack(
+                    attacks[i].conditions(),
+                    attacks[i].hitbox(),
+                    attacks[i].damageMultiplier(),
+                    attacks[i].angle(),
+                    newUpswing,
+                    attacks[i].animation(),
+                    attacks[i].swingSound(),
+                    attacks[i].impactSound()
+            );
+            //attacks.
+        }
     }
 
     private static double getAttackRange(ItemStack itemStack){

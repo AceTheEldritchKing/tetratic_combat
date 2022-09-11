@@ -10,13 +10,17 @@ public class ForgeConfigHolder {
 
         public final ForgeConfigSpec.ConfigValue<Boolean> EnableRescale;
         public final ForgeConfigSpec.ConfigValue<Boolean> EnableTetraRange;
+        public final ForgeConfigSpec.ConfigValue<Boolean> QuickReducesUpswing;
 
         public Common(ForgeConfigSpec.Builder builder)
         {
             builder.push("rendering");
             this.EnableRescale = builder.comment("Enable Tetratic Rescaling for Items in the players Hand.")
                     .define("enableRescale", defaultBool1);
+            builder.push("Tetra Stats");
             this.EnableTetraRange = builder.comment("Use Tetras AttackRange.")
+                    .define("tetraRange", defaultBool1);
+            this.QuickReducesUpswing = builder.comment("Uses Tetras Quick Stat to Scale Upswing.")
                     .define("tetraRange", defaultBool1);
             builder.pop();
         }
