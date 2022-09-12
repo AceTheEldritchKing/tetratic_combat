@@ -138,7 +138,7 @@ public class Config {
     }
 
     private static double getQuickStat(ItemStack stack){
-        if(stack.getItem() instanceof ModularItem item && ){
+        if(stack.getItem() instanceof ModularItem item){
             var map = item.getEffectData(stack).levelMap;
             if(map.containsKey(ItemEffect.quickStrike)){
                 float level = map.get(ItemEffect.quickStrike);

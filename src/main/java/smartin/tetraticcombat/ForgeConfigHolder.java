@@ -21,7 +21,7 @@ public class ForgeConfigHolder {
             this.EnableTetraRange = builder.comment("Use Tetras AttackRange.")
                     .define("tetraRange", defaultBool1);
             this.QuickReducesUpswing = builder.comment("Uses Tetras Quick Stat to Scale Upswing.")
-                    .define("tetraRange", defaultBool1);
+                    .define("quickIsUpsing", defaultBool1);
             builder.pop();
         }
     }
