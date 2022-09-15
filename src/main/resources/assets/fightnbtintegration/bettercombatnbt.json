@@ -203,6 +203,20 @@
         }
       }
     },
+    "sword/rending_scissor_purple": {
+      "config": {
+        "attributes": {
+          "parent": "bettercombat:sword"
+        }
+      }
+    },
+    "sword/rending_scissor_red": {
+      "config": {
+        "attributes": {
+          "parent": "bettercombat:sword"
+        }
+      }
+    },
     "sword/katana_blade": {
       "config": {
         "attributes": {
