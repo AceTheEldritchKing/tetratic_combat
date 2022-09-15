@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import se.mickelus.tetra.blocks.workbench.WorkbenchTile;
-import smartin.tetraticcombat.Config;
+import smartin.tetraticcombat.ItemResolver.Resolver;
 
 @Mixin(WorkbenchTile.class)
 public abstract class WorkbenchTileMixin {
@@ -22,7 +22,7 @@ public abstract class WorkbenchTileMixin {
             remap = false
     )
     private void modifyResult(Player severity, CallbackInfo ci){
-        Config.generateBetterCombatNBT(this.getTargetItemStack());
+        Resolver.generateBetterCombatNBT(this.getTargetItemStack());
     }
 
 }

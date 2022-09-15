@@ -1,4 +1,4 @@
-package smartin.tetraticcombat;
+package smartin.tetraticcombat.ItemResolver;
 
 import net.bettercombat.api.AttributesContainer;
 

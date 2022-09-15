@@ -1,8 +1,7 @@
-package smartin.tetraticcombat;
+package smartin.tetraticcombat.ItemResolver;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import net.bettercombat.api.AttributesContainer;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.api.WeaponAttributesHelper;
@@ -21,63 +20,92 @@ import org.apache.logging.log4j.Logger;
 import se.mickelus.tetra.effect.ItemEffect;
 import se.mickelus.tetra.items.modular.ModularItem;
 import se.mickelus.tetra.properties.AttributeHelper;
+import smartin.tetraticcombat.ForgeConfigHolder;
 import smartin.tetraticcombat.network.SSyncConfig;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 
-public class Config {
+public class Resolver {
     private static final Logger LOGGER = LogManager.getLogger();
     public static File jsonFile;
+    public static String JSONSTRING = "";
     public static String fileName = "bettercombatnbt.json";
-    public static Map<String, Map<String, Condition>> JSON_MAP = new HashMap<>();
+    public static JSONFormat JSON_MAP;
+    public static double minVersion = 1.0d;
 
 
     public static void init(Path folder) {
+        if(IsValidConfigFile(folder)){
+            jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), fileName);
+            readConfig(jsonFile);
+        }
+        else{
+            jsonFile = CreateConfigFile(folder);
+            readConfig(jsonFile);
+        }
+    }
+
+    public static boolean IsValidConfigFile(Path folder) {
+        File jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), fileName);
+        if(!jsonFile.isFile()) return false;
+        try (Reader reader = new FileReader(jsonFile)) {
+            JSONFormat JSON_MAP = new Gson().fromJson(reader, JSONFormat.class);
+            if(JSON_MAP.Version<minVersion){
+                File OldJson = new File(jsonFile.getAbsolutePath()+JSON_MAP.Version+".json");
+                System.err.println(jsonFile.renameTo(OldJson));
+                return false;
+            }
+            if(JSON_MAP.attributemap==null){
+                File OldJson = new File("bettercombat_old_"+JSON_MAP.Version+".json");
+                jsonFile.renameTo(OldJson);
+                return false;
+            }
+        }
+        catch (IOException e){
+            return false;
+        }
+        return true;
+    }
+
+    public static File CreateConfigFile(Path folder){
         jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), fileName);
         try {
-            if (jsonFile.createNewFile()) {
-                Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve(fileName);
-                InputStreamReader defaults = new InputStreamReader(Files.exists(defaultConfigPath)? Files.newInputStream(defaultConfigPath) :
-                        Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream("assets/fightnbtintegration/"+fileName)));
-                FileOutputStream writer = new FileOutputStream(jsonFile, false);
-                int read;
-                while ((read = defaults.read()) != -1) {
-                    writer.write(read);
-                }
-                writer.close();
-                defaults.close();
+            Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve(fileName);
+            InputStreamReader defaults = new InputStreamReader(Files.exists(defaultConfigPath)? Files.newInputStream(defaultConfigPath) :
+                    Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream("assets/fightnbtintegration/"+fileName)));
+            FileOutputStream writer = new FileOutputStream(jsonFile, false);
+            int read;
+            while ((read = defaults.read()) != -1) {
+                writer.write(read);
             }
-        } catch (IOException error) {
+            writer.close();
+            defaults.close();
+            return jsonFile;
+        } catch (Exception error) {
             LOGGER.warn(error.getMessage());
+            return jsonFile;
         }
-        readConfig(jsonFile);
     }
 
     public static SSyncConfig configFileToSSyncConfig() {
-        try {
-            return new SSyncConfig(new String(Files.readAllBytes(jsonFile.toPath())));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return new SSyncConfig(JSONSTRING);
     }
 
     public static void readConfig(String config) {
-        JSON_MAP = new Gson().fromJson(config, new TypeToken<Map<String, Map<String, Condition>>>(){}.getType());
+        JSON_MAP = new Gson().fromJson(config, JSONFormat.class);
     }
 
     public static void readConfig(File path) {
-        try (Reader reader = new FileReader(path)) {
-            JSON_MAP = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, Condition>>>(){}.getType());
+        try {
+            JSONSTRING = new String(Files.readAllBytes(path.toPath()));
+            readConfig(JSONSTRING);
         } catch (IOException e) {
             e.printStackTrace();
-            JSON_MAP = new HashMap<>();
         }
     }
 
@@ -85,8 +113,8 @@ public class Config {
         if(stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
-                if(JSON_MAP.containsKey(key)){
-                    Map<String, Condition> map1 =  JSON_MAP.get(key);
+                if(JSON_MAP.attributemap.containsKey(key)){
+                    Map<String, Condition> map1 =  JSON_MAP.attributemap.get(key);
                     if(map1.containsKey(tag.getString(key))){
                         return map1.get(tag.getString(key)).resolve(stack);
                     }
@@ -97,7 +125,10 @@ public class Config {
     }
 
     public static ItemStack generateBetterCombatNBT(ItemStack itemStack){
-        ExpandedContainer container = Config.findWeaponByNBT(itemStack);
+        ExpandedContainer container = Resolver.findWeaponByNBT(itemStack);
+        LOGGER.info("GenerateNBT");
+        LOGGER.info(container);
+        LOGGER.info(JSON_MAP.attributemap);
         if(container!=null){
             try{
                 double range = getAttackRange(itemStack);

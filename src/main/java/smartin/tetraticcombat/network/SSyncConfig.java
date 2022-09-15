@@ -1,7 +1,7 @@
 package smartin.tetraticcombat.network;
 
 
-import smartin.tetraticcombat.Config;
+import smartin.tetraticcombat.ItemResolver.Resolver;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -26,6 +26,6 @@ public class SSyncConfig implements IPacket {
 
     @Override
     public void processPacket(NetworkEvent.Context ctx) {
-        Config.readConfig(this.json);
+        Resolver.readConfig(this.json);
     }
 }

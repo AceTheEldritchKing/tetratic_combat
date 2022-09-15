@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import smartin.tetraticcombat.Config;
+import smartin.tetraticcombat.ItemResolver.Resolver;
 
 
 @Mixin(value = WeaponRegistry.class, remap = false)
@@ -29,7 +29,7 @@ public abstract class WeaponRegistryMixin {
          * There is no harm if this mixins fails, nor will the game crash
          */
         if(itemStack!=null && itemStack.hasTag() && !itemStack.getTag().contains("weapon_attributes")){
-            Config.generateBetterCombatNBT(itemStack);
+            Resolver.generateBetterCombatNBT(itemStack);
         }
     }
 }

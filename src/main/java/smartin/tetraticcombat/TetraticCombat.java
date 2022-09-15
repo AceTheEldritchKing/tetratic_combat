@@ -13,11 +13,10 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.network.PacketDistributor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import smartin.tetraticcombat.ItemResolver.Resolver;
 import smartin.tetraticcombat.network.ClientProxy;
 import smartin.tetraticcombat.network.CommonProxy;
 import smartin.tetraticcombat.network.PacketHandler;
-
-import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("tetraticcombat")
@@ -39,13 +38,13 @@ public class TetraticCombat {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        Config.init(event.getServer().getWorldPath(new LevelResource("bettercombatnbt")));
+        Resolver.init(event.getServer().getWorldPath(new LevelResource("bettercombatnbt")));
     }
 
     @SubscribeEvent
     public void onPlayerConnect(PlayerEvent.PlayerLoggedInEvent event) {
         if(event.getPlayer() instanceof ServerPlayer) {
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getPlayer()), Config.configFileToSSyncConfig());
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getPlayer()), Resolver.configFileToSSyncConfig());
         }
     }
 }
