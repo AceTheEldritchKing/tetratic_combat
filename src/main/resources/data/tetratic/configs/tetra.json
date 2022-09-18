@@ -43,30 +43,30 @@
         }
       },
       "double/claw_left": {
+        "type": "improvement",
+        "key": "double/head_left",
+        "improvement": "double/warforged",
         "config": {
-          "type": "improvement",
-          "key": "double/head_left",
-          "improvement": "double/warforged",
           "attributes": {
             "parent": "bettercombat:pickaxe"
           }
         }
       },
       "double/adze_left": {
+        "type": "improvement",
+        "key": "double/head_left",
+        "improvement": "double/warforged",
         "config": {
-          "type": "improvement",
-          "key": "double/head_left",
-          "improvement": "double/warforged",
           "attributes": {
             "parent": "bettercombat:pickaxe"
           }
         }
       },
       "double/sickle_left": {
+        "type": "improvement",
+        "key": "double/head_left",
+        "improvement": "double/warforged",
         "config": {
-          "type": "improvement",
-          "key": "double/head_left",
-          "improvement": "double/warforged",
           "attributes": {
             "parent": "bettercombat:sickle"
           }
