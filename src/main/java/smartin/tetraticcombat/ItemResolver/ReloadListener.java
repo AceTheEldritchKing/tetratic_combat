@@ -22,7 +22,6 @@ public class ReloadListener extends SimplePreparableReloadListener {
         String dataFolder = "configs";
         LOGGER.info("LOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \nLOADING CONFIGS \n");
         Iterator<ResourceLocation> iterator = resourceManager.listResources(dataFolder, (fileName) -> fileName.endsWith(".json")).iterator();
-        LOGGER.info(iterator.hasNext());
         JSONFormat mergedConfig = new JSONFormat();
         mergedConfig.Version = 1.0d;
 
