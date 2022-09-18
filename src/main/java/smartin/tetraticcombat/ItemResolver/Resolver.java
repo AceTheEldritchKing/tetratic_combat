@@ -57,12 +57,15 @@ public class Resolver {
         }
         return null;
     }
-
     public static ItemStack generateBetterCombatNBT(ItemStack itemStack){
+        return generateBetterCombatNBT(itemStack,false);
+    }
+
+    public static ItemStack generateBetterCombatNBT(ItemStack itemStack,boolean force){
+        if(force && itemStack.hasTag()&&itemStack.getTag().contains("weapon_attributes")){
+            itemStack.removeTagKey("weapon_attributes");
+        }
         ExpandedContainer container = Resolver.findWeaponByNBT(itemStack);
-        //LOGGER.info("GenerateNBT");
-        //LOGGER.info(container);
-        //LOGGER.info(weaponConfig.attributemap);
         if(container!=null){
             try{
                 double range = getAttackRange(itemStack);

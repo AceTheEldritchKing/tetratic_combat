@@ -22,7 +22,7 @@ public abstract class WorkbenchTileMixin {
             remap = false
     )
     private void modifyResult(Player severity, CallbackInfo ci){
-        Resolver.generateBetterCombatNBT(this.getTargetItemStack());
+        Resolver.generateBetterCombatNBT(this.getTargetItemStack(),true);
     }
 
 }
