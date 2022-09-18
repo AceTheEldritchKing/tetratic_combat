@@ -1,0 +1,149 @@
+{
+  "Version": 1.0,
+  "attributemap":{
+    "double/head_left": {
+      "double/tomahawk_left": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:axe"
+          }
+        }
+      },
+      "double/void_worm_pickaxe": {
+        "config": {
+          "type":"improvement",
+          "key": "double/head_left",
+          "improvement": "double/warforged",
+          "attributes": {
+            "parent": "bettercombat:pickaxe"
+          }
+        }
+      }
+    },
+    "single/head": {
+      "single/cane_head": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:staff"
+          }
+        }
+      },
+      "single/quarter_staff_head": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:battlestaff"
+          }
+        }
+      },
+      "single/halberd_head": {
+        "config": {
+          "scaleY": 2.0,
+          "scaleZ": 1.5,
+          "attributes": {
+            "parent": "bettercombat:halberd"
+          }
+        }
+      },
+      "single/mace_head": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:mace"
+          }
+        }
+      }
+    },
+    "sword/blade": {
+      "sword/bastard_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/crucible_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/executioner_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/flamberge_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/rending_scissor_purple": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/rending_scissor_red": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/katana_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:katana"
+          }
+        }
+      },
+      "sword/rapier_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:rapier"
+          }
+        }
+      },
+      "sword/shifting_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:sword"
+          }
+        }
+      },
+      "sword/void_worm_cleaver": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:claymore"
+          }
+        }
+      },
+      "sword/heavy_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:claymore"
+          }
+        }
+      },
+      "sword/machete": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:cutlass"
+          }
+        }
+      },
+      "sword/saber_blade": {
+        "config": {
+          "attributes": {
+            "parent": "bettercombat:cutlass"
+          }
+        }
+      }
+    }
+  }
+}

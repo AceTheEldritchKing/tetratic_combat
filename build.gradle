@@ -93,10 +93,6 @@ dependencies {
     implementation fg.deobf("curse.maven:tetra-289712:3813582")
     implementation fg.deobf("curse.maven:AoF-596955:3950761")
 
-
-    implementation fg.deobf("curse.maven:mantle-74924:3829975")
-    implementation fg.deobf("curse.maven:tc-74072:3829979")
-
     runtimeOnly(fg.deobf("curse.maven:nbttool-451553:3748971"))
     runtimeOnly(fg.deobf("curse.maven:Jei-238222:3940240"))
 

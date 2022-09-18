@@ -29,7 +29,7 @@ public abstract class WeaponRegistryMixin {
          * There is no harm if this mixins fails, nor will the game crash
          */
         if(itemStack!=null && itemStack.hasTag() && !itemStack.getTag().contains("weapon_attributes")){
-            Resolver.generateBetterCombatNBT(itemStack);
+            //Resolver.generateBetterCombatNBT(itemStack);
         }
     }
 }
