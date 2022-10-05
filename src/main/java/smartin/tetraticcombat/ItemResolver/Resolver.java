@@ -44,6 +44,7 @@ public class Resolver {
     }
 
     public static ExpandedContainer findWeaponByNBT(ItemStack stack) {
+        if(weaponConfig==null) return null;
         if(stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
