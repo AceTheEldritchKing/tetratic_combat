@@ -23,13 +23,19 @@ public class ItemInHandRendererMixin {
             remap = true,
             require = 1
     )
-    private void renderArmWithItem(LivingEntity p_109323_, ItemStack p_109324_, ItemTransforms.TransformType p_109325_, boolean p_109326_, PoseStack p_109327_, MultiBufferSource p_109328_, int p_109329_, CallbackInfo ci){
+    private void renderArmWithItem(LivingEntity p_109323_, ItemStack itemstack, ItemTransforms.TransformType p_109325_, boolean p_109326_, PoseStack poseStack, MultiBufferSource p_109328_, int p_109329_, CallbackInfo ci){
         if(!ForgeConfigHolder.COMMON.EnableRescale.get()) return;
-        CompoundTag tag = p_109324_.getTag();
+        CompoundTag tag = itemstack.getTag();
+        byte[] bytes = new byte[]{};
+
         if(tag==null) return;
         float xscale = tag.contains("tetraticScaleX") ? tag.getFloat("tetraticScaleX"):1.0f;
         float yscale = tag.contains("tetraticScaleY") ? tag.getFloat("tetraticScaleY"):1.0f;
         float zscale = tag.contains("tetraticScaleZ") ? tag.getFloat("tetraticScaleZ"):1.0f;
-        p_109327_.scale(xscale,yscale,zscale);
+        double xTranslate = tag.contains("tetraticTranslateX") ? tag.getFloat("tetraticTranslateX"):0.0d;
+        double yTranslate = tag.contains("tetraticTranslateY") ? tag.getFloat("tetraticTranslateY"):0.0d;
+        double zTranslate = tag.contains("tetraticTranslateZ") ? tag.getFloat("tetraticTranslateZ"):0.0d;
+        poseStack.scale(xscale,yscale,zscale);
+        poseStack.translate(xTranslate,yTranslate,zTranslate);
     }
 }

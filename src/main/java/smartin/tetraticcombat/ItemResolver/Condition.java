@@ -24,7 +24,6 @@ public class Condition {
         if(type==null){
             return getChildifPossible(itemStack);
         }
-        ExpandedContainer container;
         switch (type){
             case "module":
                 assert itemStack.getTag() != null;

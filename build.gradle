@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 group = 'smartin'
-version = '2.1'
+version = '2.3'
 
 java {
     archivesBaseName = 'tetratic-combat'
@@ -87,11 +87,11 @@ dependencies {
     //this SHOULD work but fucks with mixins so idk
     //implementation fg.deobf("curse.maven:animlib-658587:3955876")
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.3.5")
-    implementation fg.deobf("curse.maven:bettercombat-639842:3959597")
+    implementation fg.deobf("curse.maven:bettercombat-639842:4046657")
 
     implementation fg.deobf("curse.maven:mutil-351914:3788376")
-    implementation fg.deobf("curse.maven:tetra-289712:3813582")
-    implementation fg.deobf("curse.maven:AoF-596955:3950761")
+    implementation fg.deobf("curse.maven:tetra-289712:4029100")
+    //implementation fg.deobf("curse.maven:AoF-596955:3995952")
 
     runtimeOnly(fg.deobf("curse.maven:nbttool-451553:3748971"))
     runtimeOnly(fg.deobf("curse.maven:Jei-238222:3940240"))

@@ -1,10 +1,10 @@
 package smartin.tetraticcombat;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -27,15 +27,16 @@ public class TetraticCombat {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private static String MODID = "tetraticcombat";
+
     public static CommonProxy PROXY;
 
     public static ReloadListener ReloadEvent;
 
     public TetraticCombat() {
-
         PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
         MinecraftForge.EVENT_BUS.register(this);
-        //MinecraftForge.EVENT_BUS.register(EventHandler.class);
+        MinecraftForge.EVENT_BUS.register(EventHandler.class);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ForgeConfigHolder.COMMON_SPEC);
     }
 

@@ -79,6 +79,7 @@ public class Resolver {
                 AttributesContainer attributesContainer =  new AttributesContainer(container.attributes.parent(),attributes);
                 WeaponAttributesHelper.writeToNBT(itemStack,attributesContainer);
                 applyScale(itemStack,container.scaleX,container.scaleY,container.scaleZ);
+                applyTranslation(itemStack,container.translationX,container.translationY,container.translationZ);
                 return itemStack;
             }
             catch (Exception e){
@@ -103,6 +104,22 @@ public class Resolver {
             nbt.putFloat("tetraticScaleZ",z);
         else if(nbt.contains("tetraticScaleZ"))
             nbt.remove("tetraticScaleZ");
+        stack.setTag(nbt);
+    }
+    private static void applyTranslation(ItemStack stack,double x,double y,double z){
+        CompoundTag nbt = stack.getTag();
+        if(x!=0.0f)
+            nbt.putDouble("tetraticTranslateX",x);
+        else if(nbt.contains("tetraticTranslateX"))
+            nbt.remove("tetraticTranslateX");
+        if(y!=0.0f)
+            nbt.putDouble("tetraticTranslateY",y);
+        else if(nbt.contains("tetraticTranslateY"))
+            nbt.remove("tetraticTranslateY");
+        if(z!=0.0f)
+            nbt.putDouble("tetraticTranslateZ",z);
+        else if(nbt.contains("tetraticTranslateZ"))
+            nbt.remove("tetraticTranslateZ");
         stack.setTag(nbt);
     }
 
@@ -138,11 +155,17 @@ public class Resolver {
     private static double getAttackRange(ItemStack itemStack){
         if(itemStack.getItem() instanceof ModularItem item){
             //TetraItem, use fallback to Reach
-            if(item.getAttributeModifiers(itemStack.getEquipmentSlot(),itemStack).containsKey(ForgeMod.ATTACK_RANGE)){
+            System.out.println(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get()));
+            if(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get())!=0){
                 return 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
             }
             else{
-                return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
+                if(ForgeConfigHolder.COMMON.ReachFallBack.get()){
+                    return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
+                }
+                else{
+                    return 3.0d;
+                }
             }
         }
         else{

@@ -6,6 +6,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,11 +26,13 @@ public class EventHandler {
     @SubscribeEvent(
             priority = EventPriority.LOWEST
     )
-    public static void onClickInput(InputEvent.ClickInputEvent event) {
-        System.out.println("CLICKINPUT");
+
+    public static void onEmptyLeftClick(PlayerInteractEvent.LeftClickEmpty event){
+        if(!ForgeConfigHolder.COMMON.EventOne.get()) return;
         Minecraft mc = Minecraft.getInstance();
         ItemStack itemStack = mc.player.getMainHandItem();
-        if (event.isAttack() && itemStack.getItem() instanceof ItemModularHandheld && mc.hitResult != null && HitResult.Type.MISS.equals(mc.hitResult.getType())) {
+        if(event.isCanceled()) return;
+        if (true && itemStack.getItem() instanceof ItemModularHandheld && mc.hitResult != null && HitResult.Type.MISS.equals(mc.hitResult.getType())) {
             if (getEffectLevel(itemStack, ItemEffect.truesweep) > 0) {
                 SweepingEffect.triggerTruesweep();
             }
@@ -38,12 +41,8 @@ public class EventHandler {
                 HowlingEffect.sendPacket();
             }
         }
-
-        if (event.isUseItem()) {
-            LungeEffect.onRightClick(mc.player);
-        }
-
     }
+
     private static int getEffectLevel(ItemStack itemStack, ItemEffect effect) {
         return EffectHelper.getEffectLevel(itemStack, effect);
     }
