@@ -18,7 +18,6 @@ import se.mickelus.tetra.effect.ItemEffect;
 import se.mickelus.tetra.items.modular.ModularItem;
 import se.mickelus.tetra.properties.AttributeHelper;
 import smartin.tetraticcombat.ForgeConfigHolder;
-import smartin.tetraticcombat.network.SSyncConfig;
 
 import java.util.Map;
 
@@ -29,17 +28,10 @@ public class Resolver {
 
     public static void reload(JSONFormat config) {
         weaponConfig = config;
-        configFileToSSyncConfig();
-    }
-
-
-    public static SSyncConfig configFileToSSyncConfig() {
-        Gson gson = new Gson();
-        String configString = gson.toJson(weaponConfig);
-        return new SSyncConfig(configString);
     }
 
     public static void readConfig(String config) {
+        LOGGER.info(config);
         weaponConfig = new Gson().fromJson(config, JSONFormat.class);
     }
 
@@ -62,12 +54,18 @@ public class Resolver {
         return generateBetterCombatNBT(itemStack,false);
     }
 
-    public static ItemStack generateBetterCombatNBT(ItemStack itemStack,boolean force){
-        if(force && itemStack.hasTag()&&itemStack.getTag().contains("weapon_attributes")){
+    public static void resetBetterCombatNBT(ItemStack itemStack){
+        if(itemStack.hasTag()&&itemStack.getTag().contains("weapon_attributes")){
             itemStack.removeTagKey("weapon_attributes");
         }
+    }
+
+    public static ItemStack generateBetterCombatNBT(ItemStack itemStack,boolean force){
         ExpandedContainer container = Resolver.findWeaponByNBT(itemStack);
         if(container!=null){
+            if(force && itemStack.hasTag()&&itemStack.getTag().contains("weapon_attributes")){
+                itemStack.removeTagKey("weapon_attributes");
+            }
             try{
                 double range = getAttackRange(itemStack);
                 WeaponAttributes attributes = WeaponRegistry.resolveAttributes(new ResourceLocation("tetratic:generated"),container.attributes);

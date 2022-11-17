@@ -5,14 +5,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import se.mickelus.tetra.effect.EffectHelper;
 import se.mickelus.tetra.effect.ItemEffect;
-import se.mickelus.tetra.effect.LungeEffect;
 import se.mickelus.tetra.effect.SweepingEffect;
 import se.mickelus.tetra.effect.howling.HowlingEffect;
 import se.mickelus.tetra.items.modular.ItemModularHandheld;
@@ -21,7 +19,7 @@ import se.mickelus.tetra.items.modular.ItemModularHandheld;
         modid = "tetratic",
         bus = Mod.EventBusSubscriber.Bus.MOD
 )
-public class EventHandler {
+public class ClientEventHandler {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(
             priority = EventPriority.LOWEST

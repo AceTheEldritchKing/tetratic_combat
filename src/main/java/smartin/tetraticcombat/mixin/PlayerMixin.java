@@ -27,7 +27,7 @@ public class PlayerMixin {
         Player p = (Player)(Object) this;
         ItemStack handStack = playerItemStackMap.get(p);
         if(handStack==null || (p.getMainHandItem() != null && !p.getMainHandItem().equals(handStack,false))){
-            Resolver.generateBetterCombatNBT(p.getMainHandItem(),true);
+            Resolver.generateBetterCombatNBT(p.getMainHandItem(),false);
             playerItemStackMap.put(p,p.getMainHandItem());
         }
     }

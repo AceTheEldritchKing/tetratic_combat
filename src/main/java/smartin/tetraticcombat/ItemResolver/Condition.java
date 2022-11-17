@@ -35,8 +35,9 @@ public class Condition {
             case "improvement":
                 if(itemStack.getItem() instanceof ModularItem item){
                     ItemModuleMajor[] modules = item.getMajorModules(itemStack);
+                    if(modules==null) return null;
                     for (ItemModuleMajor module : modules) {
-                        if ((module.getSlot().equals(key) || key==null) && (module.getKey().equals(value) || value == null)) {
+                        if (module!=null && (module.getSlot().equals(key) || key==null) && (module.getKey().equals(value) || value == null)) {
                             ImprovementData[] improvements = module.getImprovements(itemStack);
                             for (int h = 0; h < improvements.length; h++) {
                                 if (improvements[h].key.equals(improvement)) {

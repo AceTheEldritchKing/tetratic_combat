@@ -5,8 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "WorkbenchTileMixin",
-    "ItemInHandRendererMixin",
     "PlayerMixin"
+  ],
+  "client": [
+    "ItemInHandRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

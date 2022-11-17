@@ -26,7 +26,6 @@ public class ItemInHandRendererMixin {
     private void renderArmWithItem(LivingEntity p_109323_, ItemStack itemstack, ItemTransforms.TransformType p_109325_, boolean p_109326_, PoseStack poseStack, MultiBufferSource p_109328_, int p_109329_, CallbackInfo ci){
         if(!ForgeConfigHolder.COMMON.EnableRescale.get()) return;
         CompoundTag tag = itemstack.getTag();
-        byte[] bytes = new byte[]{};
 
         if(tag==null) return;
         float xscale = tag.contains("tetraticScaleX") ? tag.getFloat("tetraticScaleX"):1.0f;

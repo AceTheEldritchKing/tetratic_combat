@@ -1,12 +1,8 @@
 package smartin.tetraticcombat;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.forgespi.language.IModFileInfo;
-import net.minecraftforge.forgespi.language.IModInfo;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.List;
 
 public class ForgeConfigHolder {
     public static class Common
@@ -28,7 +24,7 @@ public class ForgeConfigHolder {
             this.EnableTetraRange = builder.comment("Use Tetras AttackRange.")
                     .define("tetraRange", true);
             this.ReachFallBack = builder.comment("Fall back to Tetras Reach Attribute instead of Range - used for brocken addons or old Tetra Versions.")
-                    .define("rangeFallback", TetraSupportsRange());
+                    .define("rangeFallback", true);
             this.QuickReducesUpswing = builder.comment("Uses Tetras Quick Stat to Scale Upswing.")
                     .define("quickIsUpsing", true);
             this.PlayerMixin = builder.comment("Set the stacks on Itemswitching - This is for older Worlds or config Changes, if you do not have old Items in your world you can turn this off")
@@ -41,28 +37,6 @@ public class ForgeConfigHolder {
 
     public static final Common COMMON;
     public static final ForgeConfigSpec COMMON_SPEC;
-
-    public static boolean TetraSupportsRange(){
-        List<IModFileInfo> modFileInfos = ModList.get().getModFiles();
-        for(int i = 0;i<modFileInfos.size();i++){
-            List<IModInfo> modInfos = modFileInfos.get(i).getMods();
-            for(int j = 0;j<modInfos.size();j++){
-                return(versionAbove(modFileInfos.get(i).versionString(),"4.9.10"));
-            }
-        }
-        return false;
-    }
-
-    public static boolean versionAbove(String versionString, String compareString){
-        String[] version = versionString.split("\\.");
-        String[] compare = compareString.split("\\.");
-        int length = Math.min(version.length,compare.length);
-        for(int i = 0;i<length;i++){
-            if(Integer.parseInt(version[i])>Integer.parseInt(compare[i])) return false;
-            if(Integer.parseInt(version[i])<Integer.parseInt(compare[i])) return true;
-        }
-        return false;
-    }
 
     static //constructor
     {
