@@ -1,8 +1,9 @@
-# tetratic combat
+# Tetratic Combat
 Compat mod for Tetra and Better Combat
 
+[Check Curseforge for latest stable release](https://www.curseforge.com/minecraft/mc-mods/tetratic-combat)
 
-Support other Tetra addons like AoF and co
+Supports various Tetra addons as well
 
-Check Curseforge for up to date versions:
-https://www.curseforge.com/minecraft/mc-mods/tetratic-combat
+You are the creator of a Tetra addon and want to create compat?
+[Check the wiki on Github](https://github.com/AceTheEldritchKing/tetratic_combat/wiki)
