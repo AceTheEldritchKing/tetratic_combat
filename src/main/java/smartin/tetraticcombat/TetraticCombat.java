@@ -19,20 +19,20 @@ import smartin.tetraticcombat.ItemResolver.ReloadListener;
 public class TetraticCombat {
 
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public static String MODID = "tetraticcombat";
 
     public TetraticCombat() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ForgeConfigHolder.COMMON_SPEC);
         if(FMLEnvironment.dist==Dist.CLIENT){
-            CLientSetup();
+            clientSetup();
         }
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void CLientSetup(){
+    private void clientSetup(){
         MinecraftForge.EVENT_BUS.register(ClientEventHandler.class);
     }
 

@@ -18,6 +18,7 @@ import se.mickelus.tetra.effect.ItemEffect;
 import se.mickelus.tetra.items.modular.ModularItem;
 import se.mickelus.tetra.properties.AttributeHelper;
 import smartin.tetraticcombat.ForgeConfigHolder;
+import smartin.tetraticcombat.TetraticCombat;
 
 import java.util.Map;
 
@@ -63,16 +64,18 @@ public class Resolver {
     public static ItemStack generateBetterCombatNBT(ItemStack itemStack,boolean force){
         ExpandedContainer container = Resolver.findWeaponByNBT(itemStack);
         if(container!=null){
-            if(force && itemStack.hasTag()&&itemStack.getTag().contains("weapon_attributes")){
-                itemStack.removeTagKey("weapon_attributes");
+            if(force && itemStack.hasTag() && itemStack.getTag() != null) {
+                if (itemStack.getTag().contains("weapon_attributes")) {
+                    itemStack.removeTagKey("weapon_attributes");
+                }
             }
             try{
                 double range = getAttackRange(itemStack);
                 WeaponAttributes attributes = WeaponRegistry.resolveAttributes(new ResourceLocation("tetratic:generated"),container.attributes);
-                if(ForgeConfigHolder.COMMON.EnableTetraRange.get()){
+                if(ForgeConfigHolder.COMMON.enableTetraRange.get()){
                     attributes =  new WeaponAttributes(range,attributes.pose(),attributes.offHandPose(),attributes.isTwoHanded(),attributes.category(),attributes.attacks());
                 }
-                RescaleUpswing(attributes,getQuickStat(itemStack));
+                rescaleUpswing(attributes,getQuickStat(itemStack));
                 WeaponAttributesHelper.validate(attributes);
                 AttributesContainer attributesContainer =  new AttributesContainer(container.attributes.parent(),attributes);
                 WeaponAttributesHelper.writeToNBT(itemStack,attributesContainer);
@@ -81,7 +84,7 @@ public class Resolver {
                 return itemStack;
             }
             catch (Exception e){
-                System.out.println(e.getMessage());
+                TetraticCombat.LOGGER.warn(e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -106,6 +109,7 @@ public class Resolver {
     }
     private static void applyTranslation(ItemStack stack,double x,double y,double z){
         CompoundTag nbt = stack.getTag();
+        assert nbt!=null;
         if(x!=0.0f)
             nbt.putDouble("tetraticTranslateX",x);
         else if(nbt.contains("tetraticTranslateX"))
@@ -132,8 +136,8 @@ public class Resolver {
         return 0.0d;
     }
 
-    private static void RescaleUpswing(WeaponAttributes weaponAttributes, double scale){
-        if(!ForgeConfigHolder.COMMON.QuickReducesUpswing.get()) return;
+    private static void rescaleUpswing(WeaponAttributes weaponAttributes, double scale){
+        if(!ForgeConfigHolder.COMMON.quickReducesUpswing.get()) return;
         WeaponAttributes.Attack[] attacks = weaponAttributes.attacks();
         for(int i = 0;i<attacks.length;i++) {
             double newUpswing = Math.max(0,attacks[i].upswing()-attacks[i].upswing()*scale);
@@ -153,12 +157,11 @@ public class Resolver {
     private static double getAttackRange(ItemStack itemStack){
         if(itemStack.getItem() instanceof ModularItem item){
             //TetraItem, use fallback to Reach
-            System.out.println(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get()));
             if(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get())!=0){
                 return 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
             }
             else{
-                if(ForgeConfigHolder.COMMON.ReachFallBack.get()){
+                if(ForgeConfigHolder.COMMON.reachFallBack.get()){
                     return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
                 }
                 else{

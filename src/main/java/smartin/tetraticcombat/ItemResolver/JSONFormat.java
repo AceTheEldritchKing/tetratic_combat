@@ -8,7 +8,7 @@ import java.util.Map;
 public class JSONFormat {
     public double Version = 0;
     public Map<String, Map<String, Condition>> attributemap = new HashMap<>();
-    public void Merge(JSONFormat toMerge){
+    public void merge(JSONFormat toMerge){
         if(this.attributemap==null){
             this.attributemap = toMerge.attributemap;
             return;

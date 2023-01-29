@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Mixin({Player.class})
 public class PlayerMixin {
-    private static Map<Player, ItemStack> playerItemStackMap= new HashMap();
+    private static final Map<Player, ItemStack> playerItemStackMap= new HashMap();
     @Inject(
             at = @At(value = "HEAD"),
             method = "Lnet/minecraft/world/entity/player/Player;tick()V",
@@ -23,7 +23,7 @@ public class PlayerMixin {
             require = 1
     )
     private void tick(CallbackInfo ci){
-        if(!ForgeConfigHolder.COMMON.PlayerMixin.get()) return;
+        if(!ForgeConfigHolder.COMMON.playerMixin.get()) return;
         Player p = (Player)(Object) this;
         ItemStack handStack = playerItemStackMap.get(p);
         if(handStack==null || (p.getMainHandItem() != null && !p.getMainHandItem().equals(handStack,false))){
