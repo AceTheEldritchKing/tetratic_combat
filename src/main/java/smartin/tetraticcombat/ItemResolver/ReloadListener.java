@@ -11,37 +11,35 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
+import java.util.Map;
 
 public class ReloadListener extends SimplePreparableReloadListener {
     private static final Logger LOGGER = LogManager.getLogger();
     @Override
     protected Object prepare(ResourceManager resourceManager, ProfilerFiller p_10797_) {
         String dataFolder = "configs";
-        Iterator<ResourceLocation> iterator = resourceManager.listResources(dataFolder, (fileName) -> fileName.endsWith(".json")).iterator();
+        Map<ResourceLocation,Resource> files = resourceManager.listResources(dataFolder, (fileName) -> fileName.toString().endsWith(".json"));
         JSONFormat mergedConfig = new JSONFormat();
         mergedConfig.Version = 1.0d;
 
-        while(iterator.hasNext()) {
-            ResourceLocation identifier = iterator.next();
-            if(identifier.getNamespace().equals("tetratic")){
+        files.forEach((resourceLocation, resource) -> {
+            if(resourceLocation.getNamespace().equals("tetratic")){
                 try {
-                    Resource resource = resourceManager.getResource(identifier);
-                    LOGGER.info("Loading "+resource.getLocation());
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
+                    LOGGER.info("Loading "+resource.toString());
+                    BufferedReader reader = resource.openAsReader();
                     try{
                         JSONFormat currentFile = new Gson().fromJson(reader, JSONFormat.class);
                         mergedConfig.Merge(currentFile);
-                    } catch (Exception JsonParsing){
+                    } catch (Exception jsonParsing){
                         LOGGER.warn("Exception loading tetratic Configuration from Datapack");
-                        LOGGER.warn(JsonParsing.getMessage());
-                        LOGGER.warn(resource.getLocation());
+                        LOGGER.warn(jsonParsing.getMessage());
+                        LOGGER.warn(resourceLocation);
                     }
-                } catch (IOException ignored) {}
+                } catch (IOException ignored) {
+                    LOGGER.info("Tetratic failure loading file "+resourceLocation.toString());
+                }
             }
-        }
+        });
         LOGGER.info(mergedConfig.toString());
         return mergedConfig;
     }
