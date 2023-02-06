@@ -128,8 +128,9 @@ public class Resolver {
     }
 
     private static double getQuickStat(ItemStack stack){
-        if(stack.getItem() instanceof ModularItem item){
-            var map = item.getEffectData(stack).levelMap;
+        if(stack.getItem() instanceof ModularItem){
+            ModularItem item = (ModularItem)stack.getItem();
+            Map<ItemEffect, Float> map = item.getEffectData(stack).levelMap;
             if(map.containsKey(ItemEffect.quickStrike)){
                 float level = map.get(ItemEffect.quickStrike);
                 return level*0.05d+0.2d;
@@ -157,17 +158,14 @@ public class Resolver {
     }
 
     private static double getAttackRange(ItemStack itemStack){
-        if(itemStack.getItem() instanceof ModularItem item){
+        if(itemStack.getItem() instanceof ModularItem){
+            ModularItem item = (ModularItem)itemStack.getItem();
             //TetraItem, use fallback to Reach
-            if(false){
+            if(ForgeConfigHolder.COMMON.reachFallBack.get()){
+                return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
             }
             else{
-                if(ForgeConfigHolder.COMMON.reachFallBack.get()){
-                    return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
-                }
-                else{
-                    return 3.0d;
-                }
+                return 3.0d;
             }
         }
         else{
@@ -179,6 +177,5 @@ public class Resolver {
                 return 3.0d;
             }
         }
-        return 3.0d;
     }
 }

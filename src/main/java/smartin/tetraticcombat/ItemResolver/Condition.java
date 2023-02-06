@@ -33,7 +33,8 @@ public class Condition {
                 }
                 break;
             case "improvement":
-                if(itemStack.getItem() instanceof ModularItem item){
+                if(itemStack.getItem() instanceof ModularItem){
+                    ModularItem item = (ModularItem)itemStack.getItem();
                     ItemModuleMajor[] modules = item.getMajorModules(itemStack);
                     if(modules==null) return null;
                     for (ItemModuleMajor module : modules) {

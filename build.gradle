@@ -13,11 +13,11 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 group = 'smartin'
-version = '2.6'
+version = '2.7'
 
 java {
     archivesBaseName = 'tetratic-combat-1.16'
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    toolchain.languageVersion = JavaLanguageVersion.of(8)
 }
 
 minecraft {

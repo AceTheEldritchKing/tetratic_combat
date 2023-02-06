@@ -19,7 +19,7 @@ public class ForgeConfigHolder {
         {
             builder.push("rendering");
             this.enableRescale = builder.comment("Enable Tetratic Rescaling for Items in the players Hand.")
-                    .define("enableRescale", true);
+                    .define("enableRescale", false);
             builder.pop();
             builder.push("technical");
             this.enableTetraRange = builder.comment("Use Tetras AttackRange.")
