@@ -1,6 +1,6 @@
 package smartin.tetraticcombat.ItemResolver;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
 import se.mickelus.tetra.items.modular.ModularItem;
 import se.mickelus.tetra.module.ItemModuleMajor;
 import se.mickelus.tetra.module.data.ImprovementData;

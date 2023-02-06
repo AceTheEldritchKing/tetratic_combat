@@ -1,8 +1,8 @@
 package smartin.tetraticcombat;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -28,7 +28,7 @@ public class ClientEventHandler {
         assert mc.player != null;
         ItemStack itemStack = mc.player.getMainHandItem();
         if(event.isCanceled()) return;
-        if (itemStack.getItem() instanceof ItemModularHandheld && mc.hitResult != null && HitResult.Type.MISS.equals(mc.hitResult.getType())) {
+        if (itemStack.getItem() instanceof ItemModularHandheld && mc.hitResult != null && RayTraceResult.Type.MISS.equals(mc.hitResult.getType())) {
             if (getEffectLevel(itemStack, ItemEffect.truesweep) > 0) {
                 SweepingEffect.triggerTruesweep();
             }

@@ -8,7 +8,6 @@
     "PlayerMixin"
   ],
   "client": [
-    "ItemInHandRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

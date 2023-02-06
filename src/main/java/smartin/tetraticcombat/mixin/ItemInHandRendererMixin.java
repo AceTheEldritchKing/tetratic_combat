@@ -1,19 +1,17 @@
 package smartin.tetraticcombat.mixin;
 
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import smartin.tetraticcombat.ForgeConfigHolder;
 
+/*
 @Mixin({ItemInHandRenderer.class})
 public class ItemInHandRendererMixin {
 
@@ -25,7 +23,8 @@ public class ItemInHandRendererMixin {
     )
     private void renderArmWithItem(LivingEntity livingEntity, ItemStack itemstack, ItemTransforms.TransformType transformType, boolean bool, PoseStack poseStack, MultiBufferSource multiBufferSource, int unknownInt, CallbackInfo ci){
         if(!ForgeConfigHolder.COMMON.enableRescale.get()) return;
-        CompoundTag tag = itemstack.getTag();
+        CompoundNBT tag = itemstack.getTag();
+
 
         if(tag==null) return;
         float xScale = tag.contains("tetraticScaleX") ? tag.getFloat("tetraticScaleX"):1.0f;
@@ -38,3 +37,5 @@ public class ItemInHandRendererMixin {
         poseStack.translate(xTranslate,yTranslate,zTranslate);
     }
 }
+
+ */

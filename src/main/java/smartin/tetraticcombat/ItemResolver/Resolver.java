@@ -2,15 +2,17 @@ package smartin.tetraticcombat.ItemResolver;
 
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
+import net.bettercombat.BetterCombat;
 import net.bettercombat.api.AttributesContainer;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.api.WeaponAttributesHelper;
 import net.bettercombat.logic.WeaponRegistry;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeMod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +41,7 @@ public class Resolver {
     public static ExpandedContainer findWeaponByNBT(ItemStack stack) {
         if(weaponConfig==null) return null;
         if(stack.hasTag()) {
-            CompoundTag tag = stack.getTag();
+            CompoundNBT tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
                 if(weaponConfig.attributemap.containsKey(key)){
                     Map<String, Condition> map1 =  weaponConfig.attributemap.get(key);
@@ -92,7 +94,7 @@ public class Resolver {
     }
 
     private static void applyScale(ItemStack stack,float x,float y,float z){
-        CompoundTag nbt = stack.getTag();
+        CompoundNBT nbt = stack.getTag();
         if(x!=1.0f)
             nbt.putFloat("tetraticScaleX",x);
         else if(nbt.contains("tetraticScaleX"))
@@ -108,7 +110,7 @@ public class Resolver {
         stack.setTag(nbt);
     }
     private static void applyTranslation(ItemStack stack,double x,double y,double z){
-        CompoundTag nbt = stack.getTag();
+        CompoundNBT nbt = stack.getTag();
         assert nbt!=null;
         if(x!=0.0f)
             nbt.putDouble("tetraticTranslateX",x);
@@ -157,8 +159,7 @@ public class Resolver {
     private static double getAttackRange(ItemStack itemStack){
         if(itemStack.getItem() instanceof ModularItem item){
             //TetraItem, use fallback to Reach
-            if(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get())!=0){
-                return 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
+            if(false){
             }
             else{
                 if(ForgeConfigHolder.COMMON.reachFallBack.get()){
@@ -173,10 +174,11 @@ public class Resolver {
             //not a tetra Item, technically this code is not needed
             try{
                 Multimap<Attribute, AttributeModifier> attributeMap = itemStack.getAttributeModifiers(itemStack.getEquipmentSlot());
-                return AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),3.0d);
+                return AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.REACH_DISTANCE.get()),3.0d);
             }catch (Exception e){
                 return 3.0d;
             }
         }
+        return 3.0d;
     }
 }

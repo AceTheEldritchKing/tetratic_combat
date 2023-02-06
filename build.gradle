@@ -16,12 +16,12 @@ group = 'smartin'
 version = '2.6'
 
 java {
-    archivesBaseName = 'tetratic-combat-1.19'
+    archivesBaseName = 'tetratic-combat-1.16'
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 minecraft {
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: '1.16'
 
     runs {
         client {
@@ -73,24 +73,26 @@ repositories {
     maven {
         url 'https://www.cursemaven.com'
     }
-    //PlayerAnim is weird
-    maven {
-        name "KosmX's maven"
-        url 'https://maven.kosmx.dev/'
-    }
+    maven { url 'https://maven.shedaniel.me/' }
+    maven { url 'https://maven.kosmx.dev/' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.0'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
 
-    implementation fg.deobf("curse.maven:cloth-348521:3972423")
     //this SHOULD work but fucks with mixins so idk
     //implementation fg.deobf("curse.maven:animlib-658587:3955876")
-    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.4.2")
-    implementation fg.deobf("curse.maven:bettercombat-639842:4357578")
+    //implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.4.2")
+    //implementation fg.deobf("curse.maven:bettercombat-639842:4357578")
 
-    implementation fg.deobf("curse.maven:mutil-351914:3941314")
-    implementation fg.deobf("curse.maven:tetra-289712:4370833")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:0.3.5+1.16.5")
+    implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:4.14.64")
+    implementation fg.deobf("curse.maven:forgedfabric-662687:4059371")
+    implementation fg.deobf("curse.maven:bettercombat-812890:4351266")
+
+    implementation fg.deobf("curse.maven:mutil-351914:3456505")
+    implementation fg.deobf("curse.maven:tetra-289712:3585032")
     //implementation fg.deobf("curse.maven:AoF-596955:3995952")
 
     //runtimeOnly(fg.deobf("curse.maven:nbttool-451553:3748971"))
