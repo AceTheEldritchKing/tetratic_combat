@@ -21,14 +21,16 @@ import se.mickelus.tetra.items.modular.ItemModularHandheld;
 )
 public class ClientEventHandler {
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent(priority = EventPriority.LOWEST )
+    @SubscribeEvent(
+            priority = EventPriority.LOWEST
+    )
+
     public static void onEmptyLeftClick(PlayerInteractEvent.LeftClickEmpty event){
-        if(!ForgeConfigHolder.COMMON.altEvent.get()) return;
+        if(!ForgeConfigHolder.COMMON.EventOne.get()) return;
         Minecraft mc = Minecraft.getInstance();
-        assert mc.player != null;
         ItemStack itemStack = mc.player.getMainHandItem();
         if(event.isCanceled()) return;
-        if (itemStack.getItem() instanceof ItemModularHandheld && mc.hitResult != null && HitResult.Type.MISS.equals(mc.hitResult.getType())) {
+        if (true && itemStack.getItem() instanceof ItemModularHandheld && mc.hitResult != null && HitResult.Type.MISS.equals(mc.hitResult.getType())) {
             if (getEffectLevel(itemStack, ItemEffect.truesweep) > 0) {
                 SweepingEffect.triggerTruesweep();
             }

@@ -18,6 +18,7 @@ public abstract class WorkbenchTileMixin {
     @Inject(
             method = "Lse/mickelus/tetra/blocks/workbench/WorkbenchTile;craft(Lnet/minecraft/world/entity/player/Player;)V",
             at = @At("RETURN"),
+            cancellable = true,
             remap = false
     )
     private void modifyResult(Player severity, CallbackInfo ci){
