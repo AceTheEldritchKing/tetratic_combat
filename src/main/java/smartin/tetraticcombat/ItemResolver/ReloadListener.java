@@ -28,7 +28,7 @@ public class ReloadListener extends net.minecraft.client.resources.ReloadListene
             if(identifier.getNamespace().equals("tetratic")){
                 try {
                     IResource resource = resourceManager.getResource(identifier);
-                    LOGGER.info("Loading "+resource.getLocation());
+                    //LOGGER.info("Loading "+resource.getLocation());
                     BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
                     try{
                         JSONFormat currentFile = new Gson().fromJson(reader, JSONFormat.class);
@@ -36,7 +36,7 @@ public class ReloadListener extends net.minecraft.client.resources.ReloadListene
                     } catch (Exception JsonParsing){
                         LOGGER.warn("Exception loading tetratic Configuration from Datapack");
                         LOGGER.warn(JsonParsing.getMessage());
-                        LOGGER.warn(resource.getLocation());
+                        //LOGGER.warn(resource.getLocation());
                     }
                 } catch (IOException ignored) {}
             }
