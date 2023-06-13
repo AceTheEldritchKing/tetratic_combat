@@ -152,8 +152,6 @@ public class Resolver {
 
     private static double getAttackRange(ItemStack itemStack){
         if(itemStack.getItem() instanceof ModularItem item){
-            //TetraItem, use fallback to Reach
-            System.out.println(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get()));
             if(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get())!=0){
                 return 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
             }
