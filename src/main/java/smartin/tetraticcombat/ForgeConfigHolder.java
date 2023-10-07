@@ -14,6 +14,7 @@ public class ForgeConfigHolder {
         public final ForgeConfigSpec.ConfigValue<Boolean> quickReducesUpswing;
         public final ForgeConfigSpec.ConfigValue<Boolean> playerMixin;
         public final ForgeConfigSpec.ConfigValue<Boolean> altEvent;
+        public final ForgeConfigSpec.ConfigValue<Boolean> verboseLogs;
 
         public Common(ForgeConfigSpec.Builder builder)
         {
@@ -32,6 +33,8 @@ public class ForgeConfigHolder {
                     .define("fallBackApplyConfig", true);
             this.altEvent = builder.comment("Event Backup for Howling, Lunging and True sweep (might cause effects to be executed twice)")
                     .define("EmptyLeftClick", true);
+            this.verboseLogs = builder.comment("Verbose logs, enable this if you are having trouble and want to see more details in the logs")
+                    .define("verboseLogs", false);
             builder.pop();
         }
     }
