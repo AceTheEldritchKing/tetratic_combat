@@ -15,6 +15,7 @@ public class ForgeConfigHolder {
         public final ForgeConfigSpec.ConfigValue<Boolean> playerMixin;
         public final ForgeConfigSpec.ConfigValue<Boolean> altEvent;
         public final ForgeConfigSpec.ConfigValue<Boolean> verboseLogs;
+        public final ForgeConfigSpec.ConfigValue<Double> baseRange;
 
         public Common(ForgeConfigSpec.Builder builder)
         {
@@ -35,6 +36,8 @@ public class ForgeConfigHolder {
                     .define("EmptyLeftClick", true);
             this.verboseLogs = builder.comment("Verbose logs, enable this if you are having trouble and want to see more details in the logs")
                     .define("verboseLogs", false);
+            this.baseRange = builder.comment("Base attack range for modular tools")
+                    .define("baseRange", 2.5D);
             builder.pop();
         }
     }

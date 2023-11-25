@@ -158,24 +158,25 @@ public class Resolver {
         if(itemStack.getItem() instanceof ModularItem item){
             //TetraItem, use fallback to Reach
             if(item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get())!=0){
-                return 3.0d + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
+                return ForgeConfigHolder.COMMON.baseRange.get() + item.getAttributeValue(itemStack, ForgeMod.ATTACK_RANGE.get());
             }
             else{
                 if(ForgeConfigHolder.COMMON.reachFallBack.get()){
-                    return 3.0d + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
+                    return ForgeConfigHolder.COMMON.baseRange.get() + item.getAttributeValue(itemStack, ForgeMod.REACH_DISTANCE.get());
                 }
                 else{
-                    return 3.0d;
+                    return ForgeConfigHolder.COMMON.baseRange.get();
                 }
             }
         }
+
         else{
             //not a tetra Item, technically this code is not needed
             try{
                 Multimap<Attribute, AttributeModifier> attributeMap = itemStack.getAttributeModifiers(itemStack.getEquipmentSlot());
-                return AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),3.0d);
+                return AttributeHelper.getMergedAmount(attributeMap.get(ForgeMod.ATTACK_RANGE.get()),ForgeConfigHolder.COMMON.baseRange.get());
             }catch (Exception e){
-                return 3.0d;
+                return ForgeConfigHolder.COMMON.baseRange.get();
             }
         }
     }
