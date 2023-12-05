@@ -1,5 +1,5 @@
 # Tetratic Combat
-Compat mod for Tetra and Better Combat
+Compat mod for Tetra and Better Combat  
 #DISCONTINUED
 
 [Check Curseforge for latest stable release](https://www.curseforge.com/minecraft/mc-mods/tetratic-combat)
